@@ -35,10 +35,18 @@ public class RekeningService {
     }
 
     public Rekening findByNomorRekening(String nomorRekening) {
-        return rekeningRepository.findByNomorRekening(nomorRekening);
+        return rekeningRepository.findByNoRek(nomorRekening);
     }
 
     public Iterable<Rekening> findByName(String name, Integer page, Integer size) {
         return rekeningRepository.findByNameContains(name, PageRequest.of(page, size));
+    }
+
+    public Iterable<Rekening> saveAll(List<Rekening> listRekening) {
+        return rekeningRepository.saveAll(listRekening);
+    }
+
+    public Rekening findById(String id) {
+        return rekeningRepository.findById(id).get();
     }
 }

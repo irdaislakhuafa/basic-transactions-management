@@ -25,9 +25,9 @@ public class Rekening {
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
 
-    // rename collumn for nomorRekening to no_rek, unique, not null, length 100
+    // rename collumn for noRek to no_rek, unique, not null, length 100
     @Column(name = "no_rek", nullable = false, unique = true, length = 100)
-    private String nomorRekening;
+    private String noRek;
 
     @Column(nullable = false)
     private String name;

@@ -11,5 +11,5 @@ public interface RekeningRepository extends JpaRepository<Rekening, String> {
 
     public Page<Rekening> findByNameContains(String name, Pageable pageable);
 
-    public Rekening findByNomorRekening(String nomorRekening);
+    public Rekening findByNoRek(String noRek);
 }
