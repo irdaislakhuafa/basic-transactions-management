@@ -1,4 +1,4 @@
-package com.basic.transactions.management.basictransactionsmanagement;
+package com.basic.transactions.management;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

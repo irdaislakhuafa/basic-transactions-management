@@ -1,4 +1,4 @@
-package com.basic.transactions.management.basictransactionsmanagement;
+package com.basic.transactions.management;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
