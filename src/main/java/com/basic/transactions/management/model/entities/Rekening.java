@@ -1,5 +1,8 @@
 package com.basic.transactions.management.model.entities;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -32,6 +35,6 @@ public class Rekening {
     @Column(nullable = false)
     private String name;
 
-    @Column(nullable = false)
-    private Double saldo;
+    @Column(columnDefinition = "bigint(30)", nullable = false)
+    private BigInteger saldo;
 }
