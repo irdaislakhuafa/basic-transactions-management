@@ -11,6 +11,7 @@ import com.basic.transactions.management.services.RekeningService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -57,10 +58,16 @@ public class RekeningController {
         try {
             responseMessage = new ResponseMessage(
                     HttpStatus.OK, // status response
-                    rekeningService.findAll( // data response
-                            PageRequest.of( // with pageable parameter
-                                    requestPage.getPageNumber(), // page number
-                                    requestPage.getDataSize())), // data on page
+                    ((requestPage.getSortBy() == null) ? // is sortBy == null?
+                            rekeningService.findAll( // data response
+                                    PageRequest.of( // with pageable parameter
+                                            requestPage.getPageNumber(), // page number
+                                            requestPage.getDataSize()))
+                            : rekeningService.findAll(
+                                    PageRequest.of(
+                                            requestPage.getPageNumber(),
+                                            requestPage.getDataSize(),
+                                            Sort.by(requestPage.getSortBy()).ascending()))),
                     "Success"); // message
             responseEntity = new ResponseEntity<>(responseMessage, HttpStatus.OK); // instance new ResponseEntity
 
