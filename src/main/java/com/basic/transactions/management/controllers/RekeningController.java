@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.basic.transactions.management.helpers.ResponseMessage;
 import com.basic.transactions.management.helpers.pagehelpers.RequestPage;
+import com.basic.transactions.management.model.dto.SimpleTransferContainer;
 import com.basic.transactions.management.model.entities.Rekening;
 import com.basic.transactions.management.services.RekeningService;
 
@@ -27,7 +28,7 @@ public class RekeningController {
     @Autowired
     private RekeningService rekeningService;
 
-    private static ResponseEntity responseEntity;;
+    private static ResponseEntity<?> responseEntity;;
     private static ResponseMessage responseMessage;;
 
     // find all data rekening
@@ -134,5 +135,18 @@ public class RekeningController {
             responseEntity = new ResponseEntity<>(responseMessage, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return responseEntity;
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<?> transfer(@RequestBody SimpleTransferContainer simpleTransferContainer) {
+        responseMessage = rekeningService.transfer(
+                simpleTransferContainer.getNoRekSource(),
+                simpleTransferContainer.getNoRekDestination(),
+                simpleTransferContainer.getMoney());
+
+        return new ResponseEntity<>(
+                responseMessage,
+                (responseMessage.getMessage().toString().equalsIgnoreCase("success")) ? (HttpStatus.OK)
+                        : (HttpStatus.INTERNAL_SERVER_ERROR));
     }
 }

@@ -1,9 +1,13 @@
 package com.basic.transactions.management.services;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
+import com.basic.transactions.management.helpers.ResponseMessage;
 import com.basic.transactions.management.model.entities.Rekening;
 import com.basic.transactions.management.model.repositories.RekeningRepository;
 
@@ -13,7 +17,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
-@Transactional
 public class RekeningService {
     @Autowired
     private RekeningRepository rekeningRepository;
@@ -48,5 +51,53 @@ public class RekeningService {
 
     public Rekening findById(String id) {
         return rekeningRepository.findById(id).get();
+    }
+
+    @Transactional
+    public ResponseMessage transfer(String noRekSource, String noRekDestination, Double money) {
+        Boolean isExists;
+        ResponseMessage responseMessage = new ResponseMessage();
+
+        try {
+            isExists = rekeningRepository.existsByNoRek(noRekSource);
+            if (!isExists) {
+                responseMessage.setStatus(false);
+                responseMessage.setMessage(String.valueOf("Account with NO REK \'" + noRekSource + "\' not found"));
+                return responseMessage;
+            }
+
+            isExists = rekeningRepository.existsByNoRek(noRekDestination);
+            if (!isExists) {
+                responseMessage.setStatus(false);
+                responseMessage
+                        .setMessage(String.valueOf("Account with NO REK \'" + noRekDestination + "\' not found"));
+                return responseMessage;
+            }
+
+            Rekening source = rekeningRepository.findByNoRek(noRekSource);
+            Rekening destination = rekeningRepository.findByNoRek(noRekDestination);
+
+            source.setSaldo(source.getSaldo() - money);
+            destination.setSaldo(destination.getSaldo() + money);
+
+            save(source);
+            save(destination);
+
+            Map<String, Object> data = new HashMap<>();
+            data.put("transfer", money);
+            data.put("source", source);
+            data.put("destination", destination);
+
+            responseMessage.setStatus(true);
+            responseMessage.setMessage("Success");
+            responseMessage.setData(data);
+            return responseMessage;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseMessage.setMessage("Error " + e.getMessage());
+            responseMessage.setStatus(true);
+            return responseMessage;
+        }
     }
 }
