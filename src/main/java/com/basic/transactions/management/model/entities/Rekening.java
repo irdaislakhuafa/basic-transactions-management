@@ -1,7 +1,5 @@
 package com.basic.transactions.management.model.entities;
 
-import java.math.BigInteger;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
