@@ -72,4 +72,28 @@
 		</plugins>
 	</build>
 
+	<!-- configuratoins multi profiles -->
+	<profiles>
+		<!-- development profile -->
+		<profile>
+			<id>development</id>
+			<properties>
+				<!-- application properties file name -->
+				<activatedProperties>development</activatedProperties>
+			</properties>
+
+			<!-- activated value -->
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+		</profile>
+
+		<!-- production profile -->
+		<profile>
+			<id>production</id>
+			<properties>
+				<activatedProperties>production</activatedProperties>
+			</properties>
+		</profile>
+	</profiles>
 </project>
